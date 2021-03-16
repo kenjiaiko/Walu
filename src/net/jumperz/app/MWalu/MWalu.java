@@ -6,6 +6,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+// -- ADD
+import java.nio.file.Path;
+// --
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -41,6 +44,10 @@ final long start1 = System.currentTimeMillis();
 private static ThreadLocal< NumberFormat > nf = ThreadLocal.withInitial( () -> new DecimalFormat( "0.000" ) );
 
 public static final List< String > featureNameList = new ArrayList<>();
+
+// -- ADD
+public static List< String > features = new ArrayList<>();
+// --
 
 static
 {
@@ -138,6 +145,14 @@ public void execute( final String[] args ) throws Exception
 public static void main( String[] args ) throws Exception
 {
 	MWalu walu = new MWalu();
+	// -- ADD
+	Path FeFilePath = Paths.get( "features.txt" );
+	if (Files.exists(FeFilePath)) {
+		List< String > features = Files.readAllLines( FeFilePath );
+		walu.features = features;
+	}
+	p( "Features size:" + walu.features.size() );
+	// --
 	walu.execute( args );
 
 	p( "Total execution time:" + (System.currentTimeMillis() - walu.start1) );
@@ -203,7 +218,18 @@ public double[] toVector( final String requestLine ) throws MalformedURLExceptio
 	{
 		return null;
 	}
-	final double[] vector = new double[ featureSize ];
+	// -- ADD
+	int vector_size = 0;
+	if( features.size() != 0 )
+	{
+		vector_size = features.size();
+	}
+	else
+	{
+		vector_size = featureSize;
+	}
+	final double[] vector = new double[ vector_size ]; // -- CHANGE
+	// --
 	Arrays.fill( vector, -1 );
 	final int[] charCountArray = MUtil.getCharCount( requestLine );
 	final URL url = new URL( "http://dummy/" + array[ 1 ] );
@@ -213,6 +239,17 @@ public double[] toVector( final String requestLine ) throws MalformedURLExceptio
 	{
 		query = "";
 	}
+
+	// -- ADD
+	if( features.size() != 0 )
+	{
+		for( int i=0; i < features.size(); i++ )
+		{
+			vector[i] = MUtil.count( path + "?" + query, features.get(i) );
+		}
+		return vector;
+	}
+	// --
 
 	//findex_%
 	int k = 0;
