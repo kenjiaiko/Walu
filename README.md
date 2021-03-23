@@ -50,7 +50,7 @@ $ ./run.sh 2 0.30
 
 　当然、専門家が特徴を設定した方が良いが、適当な特徴でもそれなりに（分析には差し障りない程度に）良い結果が得られるようである。
 
-### 実用化のためには？
+### ラベル付け
 
 - 上記BlogではJavaで書かれているが、それとほぼ同様のコードをpythonで書いた。[ipynb/viz02.ipynb](ipynb/viz02.ipynb)
 - ラベルのない1036万行のデータから、Isolation forestを繰り返すことで742行にした。[ipynb/result_by_ip.txt](ipynb/result_by_ip.txt)
