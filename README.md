@@ -53,7 +53,8 @@ $ ./run.sh 2 0.30
 ### ラベル付け
 
 - 上記BlogではJavaで書かれているが、それとほぼ同様のコードをpythonで書いた。[ipynb/viz02.ipynb](ipynb/viz02.ipynb)
-- ラベルのない1036万行のデータから、Isolation forestを繰り返すことで742行にした。[ipynb/result_by_ip.txt](ipynb/result_by_ip.txt)
+- ラベルのない1036万行のデータから、Isolation forestを繰り返すことで742行に削減。[ipynb/result_by_ip.txt](ipynb/result_by_ip.txt)
+- 742行を人間がみてラベル付けする。
 
 　全ての外れ値が真に攻撃であるならこれでOKなのだが、当然そうではないので、ここからは人間が確認していく。[ipynb/result_by_ip.txt](ipynb/result_by_ip.txt)の最初の29行ほどは/rapidGrails/jsonListリクエストが続く。まぁ攻撃ではないだろう。そして30行目に明確な攻撃が見つかる。
  
