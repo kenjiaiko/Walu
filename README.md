@@ -98,4 +98,3 @@ $ ./run.sh 2 0.30
 　304行目、../wp-config.php。pattern5。315行目、name=....jpg。（攻撃じゃないが）一応pattern5亜種。
 
 　以上が攻撃アクセス。あとはpattern1-5を検知するルールを作れば良い。
-rウールを
