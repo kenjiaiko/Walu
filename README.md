@@ -4,9 +4,9 @@ https://www.scutum.jp/information/waf_tech_blog/2021/01/waf-blog-077.html
  
 　上記Blog（WAF Tech Blog）から自分なりに調査した結果のメモ。
 
-　ラベル付け無しに攻撃を検知したい。そのためには正常系から離れたデータ、つまり「外れ値」を攻撃と定義して、異常検知アルゴリズムを用いる。上記blogではIsolation forestを使用。データセットは[Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/3QBYB5)にあるAccess.log.zip。イラン実在のショッピングサイトにおける2019年1月からの数日間のアクセスログをNginxにより取得。1036万行（3.3GB）。
+　ラベル付け無しに攻撃を検知したい。そのためには正常系から離れたデータ、つまり「外れ値」を攻撃と定義して、異常検知アルゴリズムを用いる。上記BlogではIsolation forestを使用。データセットは[Harvard Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/3QBYB5)にあるAccess.log.zip。イラン実在のショッピングサイトにおける2019年1月からの数日間のアクセスログをNginxにより取得。1036万行（3.3GB）。
 
-　上記blogと同条件で取り出したデータから、ランダムに抽出した10000件のデータを2次元にマッピング（画像1）。データセットを調査するとScale-freeしている。[ipynb/viz01.ipynb](ipynb/viz01.ipynb) [[mybinder.org](https://mybinder.org/v2/gh/kenjiaiko/Walu/main?filepath=ipynb%2Fviz01.ipynb)]
+　上記Blogと同条件で取り出したデータから、ランダムに抽出した10000件のデータを2次元にマッピング（画像1）。データセットを調査するとScale-freeしている。[ipynb/viz01.ipynb](ipynb/viz01.ipynb) [[mybinder.org](https://mybinder.org/v2/gh/kenjiaiko/Walu/main?filepath=ipynb%2Fviz01.ipynb)]
 
 <img src="ipynb/t-SNE10000.jpg" width="300">（画像1）
 
